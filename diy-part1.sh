@@ -16,7 +16,7 @@
 # Add a feed source
 sed -i '$a src-git lucky https://github.com/sirpdboy/luci-app-lucky.git;main' feeds.conf.default
 sed -i '$a src-git OpenClash https://github.com/vernesong/OpenClash.git;dev' feeds.conf.default
-sed -i '$a src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go.git;main' feeds.conf.default
+sed -i '$a src-git ddns_go https://github.com/sirpdboy/luci-app-ddns-go.git;main' feeds.conf.default
 sed -i '$a src-git advancedplus https://github.com/sirpdboy/luci-app-advancedplus.git;main' feeds.conf.default
 sed -i '$a src-git kucat https://github.com/sirpdboy/luci-theme-kucat.git;js' feeds.conf.default
 #sed -i '$a src-git mosdns https://github.com/sbwml/luci-app-mosdns.git;v5' feeds.conf.default
