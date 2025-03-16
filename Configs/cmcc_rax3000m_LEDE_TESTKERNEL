@@ -8272,3 +8272,9 @@ CONFIG_PACKAGE_yq=y
 # CONFIG_PACKAGE_fontconfig is not set
 # end of Font-Utils
 # end of Xorg
+
+#
+# User Custom
+#
+CONFIG_PACKAGE_luci-app-autoupdate=y
+# end of User Custom
