@@ -9,117 +9,117 @@
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
 #
-set -euxo pipefail
+#set -euxo pipefail
 FEEDS_LUCI=${GITHUB_WORKSPACE}/openwrt/package/feeds/luci
 FEEDS_PKG=${GITHUB_WORKSPACE}/openwrt/package/feeds/packages
 
-#MKDIR() {
-#	while [[ $1 ]]
-#	do
-#		if [[ ! -d $(dirname $1) ]]
-#		then
-#			mkdir -p $(dirname $1)
-#			if [[ $? != 0 ]]
-#			then
-#				ECHO "Failed to create parent directory: [$(dirname $1)] ..."
-#				return 0
-#			fi
-#		fi
-#		if [[ ! -d $1 ]]
-#		then
-#			mkdir -p $1 || ECHO "Failed to create sub directory: [$1] ..."
-#		else
-#			ECHO "Create directory: [$(dirname $1)] ..."
-#		fi
-#		shift
-#	done
-#}
-#
-#ECHO() {
-#	echo "[$(date "+%H:%M:%S")] $*"
-#}
-#
-#AddPackage() {
-#  if [[ $# -lt 4 ]]
-#  then
-#    ECHO "Syntax error: [$#] [$*]"
-#    return 0
-#  fi
-#  PKG_DIR=$1
-#  [[ ! ${PKG_DIR} =~ ${GITHUB_WORKSPACE} ]] && PKG_DIR=package/${PKG_DIR}
-#  REPO_URL="https://github.com/$2/$3"
-#  PKG_NAME=$3
-#  REPO_BRANCH=$4
-#
-#  MKDIR ${PKG_DIR}
-#  if [[ -d ${PKG_DIR}/${PKG_NAME} ]]
-#  then
-#    ECHO "Removing old package: [${PKG_NAME}] ..."
-#    rm -rf "${PKG_DIR}/${PKG_NAME}"
-#  fi
-#
-#  if [[ -z ${REPO_BRANCH} ]]
-#  then
-#    REPO_BRANCH=main
-#  fi
-#  ECHO "Downloading package [${PKG_NAME}] to ${PKG_DIR} ..."
-#  git clone --depth 1 -b ${REPO_BRANCH} ${REPO_URL} ${PKG_DIR}/${PKG_NAME}/ > /dev/null 2>&1
-#  if [ "$5" ]
-#  then
-#    NOT_DEL=$5
-#    echo "NOT_DEL:${NOT_DEL}"
-#    RemoveDirWithoutRex ${PKG_DIR}/${PKG_NAME} ${NOT_DEL}
-#    # find ${PKG_DIR}/${PKG_NAME}/* -type d -maxdepth 0 ! -regex ".*$(echo "$NOT_DEL" | sed 's/|/\\|/g')" -exec rm -rf {} +
-#    # need [shopt -s extglob] in workflows.yml
-#    # rm -rf ${PKG_DIR:?}/${PKG_NAME:?}/!(${NOT_DEL:?})
-#  fi
-#  ls -la "$FEEDS_LUCI"
-#  for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
-#  do
-#    dir_name=$(basename "$dir")
-#    echo "dir_name: ${dir_name}"
-#    echo "FEEDS_LUCI: $FEEDS_LUCI"
-#    find "$FEEDS_LUCI" -type d -name "luci"
-#    echo "1...."
-#    find "package/feeds" -type d -name "luci" -print0
-#    echo "2...."
-#    find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0
-#    find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0 | xargs -0 rm -rf
-#    find "${FEEDS_PKG}" -type d -name "${dir_name}" -print0 | xargs -0 rm -rf
-#  done
-#}
-#
-#RemoveDirWithoutRex() {
-#	TARGET_DIR=$1
-#	REGEX="$2"
-#	for dir in "$TARGET_DIR"/*
-#	do
-#		dir_name=$(basename "$dir")
-#		if [[ ! "$dir_name" =~ $REGEX ]]
-#		then
-#			rm -rf "$dir"
-#			echo "Deleted folder: $dir_name"
-#		fi
-#	done
-#}
-#
-## Modify default IP
-##sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
-#
-## Modify default theme
-##sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
-#
-## Modify hostname
-##sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
-#
-#AddPackage ddns-go sirpdboy luci-app-ddns-go main
-#AddPackage other sirpdboy luci-app-advancedplus main
-#AddPackage other sirpdboy luci-app-lucky main
-#AddPackage other sbwml luci-app-mosdns v5
-#AddPackage themes sirpdboy luci-theme-kucat js
-#AddPackage passwall xiaorouji openwrt-passwall main
-#AddPackage passwall xiaorouji openwrt-passwall2 main
-#AddPackage passwall xiaorouji openwrt-passwall-packages main
-#AddPackage OpenClash vernesong OpenClash dev
-#AddPackage OpenWrt-nikki nikkinikki-org OpenWrt-nikki main
-find "${FEEDS_LUCI}" -type d -name "luci-app-ddns-go" -print0
+MKDIR() {
+	while [[ $1 ]]
+	do
+		if [[ ! -d $(dirname $1) ]]
+		then
+			mkdir -p $(dirname $1)
+			if [[ $? != 0 ]]
+			then
+				ECHO "Failed to create parent directory: [$(dirname $1)] ..."
+				return 0
+			fi
+		fi
+		if [[ ! -d $1 ]]
+		then
+			mkdir -p $1 || ECHO "Failed to create sub directory: [$1] ..."
+		else
+			ECHO "Create directory: [$(dirname $1)] ..."
+		fi
+		shift
+	done
+}
+
+ECHO() {
+	echo "[$(date "+%H:%M:%S")] $*"
+}
+
+AddPackage() {
+  if [[ $# -lt 4 ]]
+  then
+    ECHO "Syntax error: [$#] [$*]"
+    return 0
+  fi
+  PKG_DIR=$1
+  [[ ! ${PKG_DIR} =~ ${GITHUB_WORKSPACE} ]] && PKG_DIR=package/${PKG_DIR}
+  REPO_URL="https://github.com/$2/$3"
+  PKG_NAME=$3
+  REPO_BRANCH=$4
+
+  MKDIR ${PKG_DIR}
+  if [[ -d ${PKG_DIR}/${PKG_NAME} ]]
+  then
+    ECHO "Removing old package: [${PKG_NAME}] ..."
+    rm -rf "${PKG_DIR}/${PKG_NAME}"
+  fi
+
+  if [[ -z ${REPO_BRANCH} ]]
+  then
+    REPO_BRANCH=main
+  fi
+  ECHO "Downloading package [${PKG_NAME}] to ${PKG_DIR} ..."
+  git clone --depth 1 -b ${REPO_BRANCH} ${REPO_URL} ${PKG_DIR}/${PKG_NAME}/ > /dev/null 2>&1
+  if [ "$5" ]
+  then
+    NOT_DEL=$5
+    echo "NOT_DEL:${NOT_DEL}"
+    RemoveDirWithoutRex ${PKG_DIR}/${PKG_NAME} ${NOT_DEL}
+    # find ${PKG_DIR}/${PKG_NAME}/* -type d -maxdepth 0 ! -regex ".*$(echo "$NOT_DEL" | sed 's/|/\\|/g')" -exec rm -rf {} +
+    # need [shopt -s extglob] in workflows.yml
+    # rm -rf ${PKG_DIR:?}/${PKG_NAME:?}/!(${NOT_DEL:?})
+  fi
+  ls -la "$FEEDS_LUCI"
+  for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
+  do
+    dir_name=$(basename "$dir")
+    echo "dir_name: ${dir_name}"
+    echo "FEEDS_LUCI: $FEEDS_LUCI"
+    find "$FEEDS_LUCI" -type d -name "luci"
+    echo "1...."
+    find "package/feeds" -type d -name "luci*" -print0
+    echo "2...."
+    find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0
+    find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0 | xargs -0 rm -rf
+    find "${FEEDS_PKG}" -type d -name "${dir_name}" -print0 | xargs -0 rm -rf
+  done
+}
+
+RemoveDirWithoutRex() {
+	TARGET_DIR=$1
+	REGEX="$2"
+	for dir in "$TARGET_DIR"/*
+	do
+		dir_name=$(basename "$dir")
+		if [[ ! "$dir_name" =~ $REGEX ]]
+		then
+			rm -rf "$dir"
+			echo "Deleted folder: $dir_name"
+		fi
+	done
+}
+
+# Modify default IP
+#sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
+
+# Modify default theme
+#sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+
+# Modify hostname
+#sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
+
+AddPackage ddns-go sirpdboy luci-app-ddns-go main
+AddPackage other sirpdboy luci-app-advancedplus main
+AddPackage other sirpdboy luci-app-lucky main
+AddPackage other sbwml luci-app-mosdns v5
+AddPackage themes sirpdboy luci-theme-kucat js
+AddPackage passwall xiaorouji openwrt-passwall main
+AddPackage passwall xiaorouji openwrt-passwall2 main
+AddPackage passwall xiaorouji openwrt-passwall-packages main
+AddPackage OpenClash vernesong OpenClash dev
+AddPackage OpenWrt-nikki nikkinikki-org OpenWrt-nikki main
+#find "${FEEDS_LUCI}" -type d -name "luci-app-ddns-go" -print0
