@@ -77,6 +77,7 @@ AddPackage() {
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
+    find "$FEEDS_LUCI" -type d -name "$dir_name" -print0
     echo "FEEDS_LUCI....."
     ls "$FEEDS_LUCI"
     find "$FEEDS_LUCI" -type d -name "$dir_name" -print0 | xargs -0 rm -rf
