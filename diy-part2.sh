@@ -42,10 +42,11 @@ ECHO() {
 DeleteFind() {
   parent_dir=$1
   delete_dir=$2
-  if find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print -quit 2>/dev/null;
-  then
-    echo "Deleting DirNameÅF$(find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 | xargs -0)"
-    find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 | xargs -0 rm -rf
+  mapfile -d $'\0' found_dirs < <(find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 2>/dev/null)
+  if [ ${#found_dirs[@]} -gt 0 ]; then
+    ECHO "Deleting Directory: "
+    printf "[$(date "+%H:%M:%S")] %s\n" "${found_dirs[@]}"
+
   fi
 }
 
