@@ -9,7 +9,7 @@
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
 #
-#set -euxo pipefail
+
 FEEDS_LUCI=${GITHUB_WORKSPACE}/openwrt/package/feeds/luci
 FEEDS_PKG=${GITHUB_WORKSPACE}/openwrt/package/feeds/packages
 
@@ -76,15 +76,9 @@ AddPackage() {
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
-    echo "dir_name: ${dir_name}"
-    echo "FEEDS_LUCI: $FEEDS_LUCI"
-    find "$FEEDS_LUCI" -type d -name "luci"
-    echo "1...."
-    find "package/feeds" -type d -name "luci*" -print0
-    echo "2...."
-    find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0
-    find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0 | xargs -0 rm -rf
-    find "${FEEDS_PKG}" -type d -name "${dir_name}" -print0 | xargs -0 rm -rf
+    find "${FEEDS_LUCI}" \( -type d -o -type l \) -name "${dir_name}" -print0
+    find "${FEEDS_LUCI}" \( -type d -o -type l \) -name "${dir_name}" -print0 | xargs -0 rm -rf
+    find "${FEEDS_PKG}" \( -type d -o -type l \) -name "${dir_name}" -print0 | xargs -0 rm -rf
   done
 }
 
@@ -121,4 +115,3 @@ AddPackage passwall xiaorouji openwrt-passwall2 main
 AddPackage passwall xiaorouji openwrt-passwall-packages main
 AddPackage OpenClash vernesong OpenClash dev
 AddPackage OpenWrt-nikki nikkinikki-org OpenWrt-nikki main
-#find "${FEEDS_LUCI}" -type d -name "luci-app-ddns-go" -print0
