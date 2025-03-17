@@ -47,9 +47,10 @@ jobs:
 
     - name: Trigger build
       if: steps.cacheHash.outputs.cache-hit != 'true'
-      uses: benc-uk/workflow-dispatch@v1
+      uses: peter-evans/repository-dispatch@v3
       with:
-        workflow: OpenWrt Builder
+        token: ${{ github.token }}
+        event-type: LEDE Update
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
