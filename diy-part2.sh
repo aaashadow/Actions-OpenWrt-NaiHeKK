@@ -73,6 +73,7 @@ AddPackage() {
     # need [shopt -s extglob] in workflows.yml
     # rm -rf ${PKG_DIR:?}/${PKG_NAME:?}/!(${NOT_DEL:?})
   fi
+  find --help
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
