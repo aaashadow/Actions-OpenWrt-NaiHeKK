@@ -78,7 +78,7 @@ AddPackage() {
   do
     dir_name=$(basename "$dir")
     echo "$dir_name"
-    find "$FEEDS_LUCI" -type d -name "$dir_name" -print0
+    find "$FEEDS_LUCI" -type d -name "$dir_name"
     echo "FEEDS_LUCI....."
     ls "$FEEDS_LUCI"
     find "$FEEDS_LUCI" -type d -name "$dir_name" -print0 | xargs -0 rm -rf
