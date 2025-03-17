@@ -37,40 +37,46 @@ ECHO() {
 }
 
 AddPackage() {
-	if [[ $# -lt 4 ]]
-	then
-		ECHO "Syntax error: [$#] [$*]"
-		return 0
-	fi
-	PKG_DIR=$1
-	[[ ! ${PKG_DIR} =~ ${GITHUB_WORKSPACE} ]] && PKG_DIR=package/${PKG_DIR}
-	REPO_URL="https://github.com/$2/$3"
-	PKG_NAME=$3
-	REPO_BRANCH=$4
+  if [[ $# -lt 4 ]]
+  then
+    ECHO "Syntax error: [$#] [$*]"
+    return 0
+  fi
+  PKG_DIR=$1
+  [[ ! ${PKG_DIR} =~ ${GITHUB_WORKSPACE} ]] && PKG_DIR=package/${PKG_DIR}
+  REPO_URL="https://github.com/$2/$3"
+  PKG_NAME=$3
+  REPO_BRANCH=$4
 
-	MKDIR ${PKG_DIR}
-	if [[ -d ${PKG_DIR}/${PKG_NAME} ]]
-	then
-		ECHO "Removing old package: [${PKG_NAME}] ..."
-		rm -rf "${PKG_DIR}/${PKG_NAME}"
-	fi
+  MKDIR ${PKG_DIR}
+  if [[ -d ${PKG_DIR}/${PKG_NAME} ]]
+  then
+    ECHO "Removing old package: [${PKG_NAME}] ..."
+    rm -rf "${PKG_DIR}/${PKG_NAME}"
+  fi
 
-	if [[ -z ${REPO_BRANCH} ]]
-	then
-		REPO_BRANCH=main
-	fi
-	ECHO "Downloading package [${PKG_NAME}] to ${PKG_DIR} ..."
-	git clone --depth 1 -b ${REPO_BRANCH} ${REPO_URL} ${PKG_DIR}/${PKG_NAME}/ > /dev/null 2>&1
-	if [ "$5" ]
-	then
-		NOT_DEL=$5
-		echo "NOT_DEL:${NOT_DEL}"
-		RemoveDirWithoutRex ${PKG_DIR}/${PKG_NAME} ${NOT_DEL}
-		# find ${PKG_DIR}/${PKG_NAME}/* -type d -maxdepth 0 ! -regex ".*$(echo "$NOT_DEL" | sed 's/|/\\|/g')" -exec rm -rf {} +
-		# need [shopt -s extglob] in workflows.yml
-		# rm -rf ${PKG_DIR:?}/${PKG_NAME:?}/!(${NOT_DEL:?})
-	fi
-	ls ${PKG_DIR}/${PKG_NAME}/
+  if [[ -z ${REPO_BRANCH} ]]
+  then
+    REPO_BRANCH=main
+  fi
+  ECHO "Downloading package [${PKG_NAME}] to ${PKG_DIR} ..."
+  git clone --depth 1 -b ${REPO_BRANCH} ${REPO_URL} ${PKG_DIR}/${PKG_NAME}/ > /dev/null 2>&1
+  if [ "$5" ]
+  then
+    NOT_DEL=$5
+    echo "NOT_DEL:${NOT_DEL}"
+    RemoveDirWithoutRex ${PKG_DIR}/${PKG_NAME} ${NOT_DEL}
+    # find ${PKG_DIR}/${PKG_NAME}/* -type d -maxdepth 0 ! -regex ".*$(echo "$NOT_DEL" | sed 's/|/\\|/g')" -exec rm -rf {} +
+    # need [shopt -s extglob] in workflows.yml
+    # rm -rf ${PKG_DIR:?}/${PKG_NAME:?}/!(${NOT_DEL:?})
+  fi
+  ls ${PKG_DIR}/${PKG_NAME}/
+  for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
+  do
+    dir_name=$(basename "$dir")
+    rm -rf ${FEEDS_LUCI}/${dir_name}
+    rm -rf ${FEEDS_PKG}/${dir_name}
+  done
 }
 
 RemoveDirWithoutRex() {
