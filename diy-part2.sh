@@ -10,6 +10,9 @@
 # See /LICENSE for more information.
 #
 
+FEEDS_LUCI=${GITHUB_WORKSPACE}/openwrt/package/feeds/luci
+FEEDS_PKG=${GITHUB_WORKSPACE}/openwrt/package/feeds/packages
+
 MKDIR() {
 	while [[ $1 ]]
 	do
@@ -71,14 +74,13 @@ AddPackage() {
     # rm -rf ${PKG_DIR:?}/${PKG_NAME:?}/!(${NOT_DEL:?})
   fi
   ls ${PKG_DIR}/${PKG_NAME}/
-  ls
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
-    delPath=package/feeds/luci/${dir_name}
+    delPath=${FEEDS_LUCI}/${dir_name}
     echo "DEL_PATH:${delPath}"
     rm -rf ${delPath}
-    delPath=package/feeds/packages/${dir_name}
+    delPath=${FEEDS_PKG}/${dir_name}
     echo "DEL_PATH:${delPath}"
     rm -rf ${delPath}
   done
