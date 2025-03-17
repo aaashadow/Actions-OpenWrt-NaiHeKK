@@ -71,11 +71,16 @@ AddPackage() {
     # rm -rf ${PKG_DIR:?}/${PKG_NAME:?}/!(${NOT_DEL:?})
   fi
   ls ${PKG_DIR}/${PKG_NAME}/
+  ls
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
-    rm -rf ${FEEDS_LUCI}/${dir_name}
-    rm -rf ${FEEDS_PKG}/${dir_name}
+    delPath=package/feeds/luci/${dir_name}
+    echo "DEL_PATH:${delPath}"
+    rm -rf ${delPath}
+    delPath=package/feeds/packages/${dir_name}
+    echo "DEL_PATH:${delPath}"
+    rm -rf ${delPath}
   done
 }
 
