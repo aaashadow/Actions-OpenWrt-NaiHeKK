@@ -88,9 +88,7 @@ AddPackage() {
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
-    echo "dir_name: $dir_name"
     DeleteFind "$FEEDS_LUCI" "$dir_name"
-    ls "$FEEDS_LUCI"
     DeleteFind "$FEEDS_PKG" "$dir_name"
   done
 }
