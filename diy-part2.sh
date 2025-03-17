@@ -77,12 +77,14 @@ AddPackage() {
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
-    delPath=${FEEDS_LUCI}/${dir_name}
-    echo "DEL_PATH:${delPath}"
-    rm -rf ${delPath}
-    delPath=${FEEDS_PKG}/${dir_name}
-    echo "DEL_PATH:${delPath}"
-    rm -rf ${delPath}
+    echo "FEEDS_LUCI....."
+    ls "$FEEDS_LUCI"
+    find "$FEEDS_LUCI" -type d -name "$dir_name" -print0 | xargs -0 rm -rf
+    ls "$FEEDS_LUCI"
+    echo "FEEDS_PKG....."
+    ls "$FEEDS_PKG"
+    find "$FEEDS_PKG" -type d -name "$dir_name" -print0 | xargs -0 rm -rf
+    ls "$FEEDS_PKG"
   done
 }
 
@@ -112,6 +114,7 @@ RemoveDirWithoutRex() {
 AddPackage ddns-go sirpdboy luci-app-ddns-go main
 AddPackage other sirpdboy luci-app-advancedplus main
 AddPackage other sirpdboy luci-app-lucky main
+AddPackage other sbwml luci-app-mosdns v5
 AddPackage themes sirpdboy luci-theme-kucat js
 AddPackage passwall xiaorouji openwrt-passwall main
 AddPackage passwall xiaorouji openwrt-passwall2 main
