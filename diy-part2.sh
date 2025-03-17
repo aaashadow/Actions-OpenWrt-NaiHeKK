@@ -79,7 +79,7 @@ AddPackage() {
     dir_name=$(basename "$dir")
     echo "dir_name: ${dir_name}"
     echo "FEEDS_LUCI: $FEEDS_LUCI"
-    find "$FEEDS_LUCI/$dir_name" -type d -print0
+    find "$FEEDS_LUCI/$dir_name" -type d
     echo "1...."
     find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0
     echo "2...."
