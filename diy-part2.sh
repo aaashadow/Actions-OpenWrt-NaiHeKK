@@ -42,9 +42,13 @@ ECHO() {
 DeleteFind() {
   parent_dir=$1
   delete_dir=$2
-  echo "?èúñ⁄?ÅF$(find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 | xargs -0)"
-  find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 | xargs -0 rm -rf
+  if find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print -quit 2>/dev/null;
+  then
+    echo "Deleting DirNameÅF$(find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 | xargs -0)"
+    find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 | xargs -0 rm -rf
+  fi
 }
+
 AddPackage() {
   if [[ $# -lt 4 ]]
   then
