@@ -73,11 +73,10 @@ AddPackage() {
     # need [shopt -s extglob] in workflows.yml
     # rm -rf ${PKG_DIR:?}/${PKG_NAME:?}/!(${NOT_DEL:?})
   fi
-  ls ${PKG_DIR}/${PKG_NAME}/
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
-    echo "$dir_name"
+    echo "dir_name: $dir_name"
     find "$FEEDS_LUCI" -type d -name "$dir_name"
     echo "FEEDS_LUCI....."
     ls "$FEEDS_LUCI"
