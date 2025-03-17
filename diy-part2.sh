@@ -9,7 +9,7 @@
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
 #
-
+set -euxo pipefail
 FEEDS_LUCI=${GITHUB_WORKSPACE}/openwrt/package/feeds/luci
 FEEDS_PKG=${GITHUB_WORKSPACE}/openwrt/package/feeds/packages
 
