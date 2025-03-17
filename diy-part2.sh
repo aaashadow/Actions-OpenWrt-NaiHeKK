@@ -44,9 +44,8 @@ DeleteFind() {
   delete_dir=$2
   mapfile -d $'\0' found_dirs < <(find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 2>/dev/null)
   if [ ${#found_dirs[@]} -gt 0 ]; then
-    ECHO "Deleting Directory: ${found_dirs[*]}"
     for path in "${found_dirs[@]}"; do
-      echo "Deleting: $path"
+      echo "Deleting Directory: $path"
       rm -rf -- "$path"  # -- –hŽ~˜HŒaˆÈ - ??”í?”»???
     done
   fi
