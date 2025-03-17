@@ -113,3 +113,8 @@ AddPackage ddns-go sirpdboy luci-app-ddns-go main
 AddPackage other sirpdboy luci-app-advancedplus main
 AddPackage other sirpdboy luci-app-lucky main
 AddPackage themes sirpdboy luci-theme-kucat js
+AddPackage passwall xiaorouji openwrt-passwall main
+AddPackage passwall xiaorouji openwrt-passwall2 main
+AddPackage passwall xiaorouji openwrt-passwall-packages main
+AddPackage OpenClash vernesong OpenClash dev
+AddPackage OpenWrt-nikki nikkinikki-org OpenWrt-nikki main
