@@ -10,6 +10,32 @@
 # See /LICENSE for more information.
 #
 
+MKDIR() {
+	while [[ $1 ]]
+	do
+		if [[ ! -d $(dirname $1) ]]
+		then
+			mkdir -p $(dirname $1)
+			if [[ $? != 0 ]]
+			then
+				ECHO "Failed to create parent directory: [$(dirname $1)] ..."
+				return 0
+			fi
+		fi
+		if [[ ! -d $1 ]]
+		then
+			mkdir -p $1 || ECHO "Failed to create sub directory: [$1] ..."
+		else
+			ECHO "Create directory: [$(dirname $1)] ..."
+		fi
+		shift
+	done
+}
+
+ECHO() {
+	echo "[$(date "+%H:%M:%S")] $*"
+}
+
 AddPackage() {
 	if [[ $# -lt 4 ]]
 	then
