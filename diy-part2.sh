@@ -44,9 +44,7 @@ DeleteFind() {
   delete_dir=$2
   mapfile -d $'\0' found_dirs < <(find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 2>/dev/null)
   if [ ${#found_dirs[@]} -gt 0 ]; then
-    ECHO "Deleting Directory: "
-    printf "[$(date "+%H:%M:%S")] %s\n" "${found_dirs[@]}"
-
+    ECHO "Deleting Directory: ${found_dirs[*]}"
   fi
 }
 
