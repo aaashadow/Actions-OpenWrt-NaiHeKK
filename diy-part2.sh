@@ -39,6 +39,12 @@ ECHO() {
 	echo "[$(date "+%H:%M:%S")] $*"
 }
 
+DeleteFind() {
+  parent_dir=$1
+  delete_dir=$2
+  echo "?èúñ⁄?ÅF$(find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 | xargs -0)"
+  find "$parent_dir" \( -type d -o -type l \) -name "$delete_dir" -print0 | xargs -0 rm -rf
+}
 AddPackage() {
   if [[ $# -lt 4 ]]
   then
@@ -76,14 +82,8 @@ AddPackage() {
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
-    echo "FEEDS_LUCI....."
-    ls "$FEEDS_LUCI"
-    find "$FEEDS_LUCI" \( -type d -o -type l \) -name "$dir_name" -print0 | xargs -0 rm -rf
-    ls "$FEEDS_LUCI"
-    echo "FEEDS_PKG....."
-    ls "$FEEDS_PKG"
-    find "$FEEDS_PKG" \( -type d -o -type l \) -name "$dir_name" -print0 | xargs -0 rm -rf
-    ls "$FEEDS_PKG"
+    DeleteFind "$FEEDS_LUCI" "$dir_name"
+    DeleteFind "$FEEDS_PKG" "$dir_name"
   done
 }
 
