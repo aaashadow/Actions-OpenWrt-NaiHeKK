@@ -76,9 +76,14 @@ AddPackage() {
   for dir in "${PKG_DIR}"/"${PKG_NAME}"/*
   do
     dir_name=$(basename "$dir")
-    find "${FEEDS_LUCI}" \( -type d -o -type l \) -name "${dir_name}" -print0
-    find "${FEEDS_LUCI}" \( -type d -o -type l \) -name "${dir_name}" -print0 | xargs -0 rm -rf
-    find "${FEEDS_PKG}" \( -type d -o -type l \) -name "${dir_name}" -print0 | xargs -0 rm -rf
+    echo "FEEDS_LUCI....."
+    ls "$FEEDS_LUCI"
+    find "$FEEDS_LUCI" \( -type d -o -type l \) -name "$dir_name" -print0 | xargs -0 rm -rf
+    ls "$FEEDS_LUCI"
+    echo "FEEDS_PKG....."
+    ls "$FEEDS_PKG"
+    find "$FEEDS_PKG" \( -type d -o -type l \) -name "$dir_name" -print0 | xargs -0 rm -rf
+    ls "$FEEDS_PKG"
   done
 }
 
