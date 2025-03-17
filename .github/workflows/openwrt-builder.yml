@@ -34,9 +34,6 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@main
-
     - name: "Optimize disk space"
       uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.1"
       with:
@@ -68,6 +65,9 @@ jobs:
         remove-haskell: 'true'
         remove-codeql: 'true'
         remove-docker-images: 'true'
+
+    - name: Checkout
+      uses: actions/checkout@main
 
     - name: Initialization environment
       env:
