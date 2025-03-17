@@ -77,9 +77,12 @@ AddPackage() {
   do
     dir_name=$(basename "$dir")
     echo "dir_name: ${dir_name}"
-    find "${FEEDS_LUCI}" -type d -name "luci-app-ddns-go" -print0
+    echo "FEEDS_LUCI: ${FEEDS_LUCI}"
+    find "${FEEDS_LUCI}" -type d -print0
     echo "1...."
-    find "package/feeds/luci" -type d -name "luci-app-ddns-go" -print0
+    find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0
+    echo "2...."
+    find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0
     find "${FEEDS_LUCI}" -type d -name "${dir_name}" -print0 | xargs -0 rm -rf
     find "${FEEDS_PKG}" -type d -name "${dir_name}" -print0 | xargs -0 rm -rf
   done
