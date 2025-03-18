@@ -76,8 +76,6 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo mkdir -p /workdir
-        sudo chown $USER:$GROUPS /workdir
         sudo -E apt-get update
         sudo -E apt-get -y full-upgrade
         sudo -E apt-get -y autoremove --purge
@@ -85,11 +83,9 @@ jobs:
         sudo timedatectl set-timezone "Asia/Shanghai"
 
     - name: Clone source code
-      working-directory: /workdir
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: REPLACE TO 256M
       run: |
