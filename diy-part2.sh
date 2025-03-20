@@ -46,7 +46,7 @@ DeleteFind() {
   if [ ${#found_dirs[@]} -gt 0 ]; then
     for path in "${found_dirs[@]}"; do
       ECHO "Deleting Directory: $path"
-      rm -rf -- "$path"  # -- –hŽ~˜HŒaˆÈ - ??”í?”»???
+      rm -rf -- "$path"
     done
   fi
 }
