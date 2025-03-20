@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  repository_dispatch:
+    types: ['LEDE Update']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Install Rust nightly
+      run: |
+        rustup install nightly
+        rustup default nightly
+
+    - name: Check Rust Version
+      run: rustc --version && cargo --version
