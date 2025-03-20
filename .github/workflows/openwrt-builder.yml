@@ -83,10 +83,10 @@ jobs:
         sudo -E apt-get clean
         sudo timedatectl set-timezone "Asia/Shanghai"
 
-    - name: Install Rust nightly
+    - name: Install Rust Nightly
       run: |
-        rustup install nightly
-        rustup default nightly
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
     - name: Clone source code
       run: |
@@ -132,6 +132,8 @@ jobs:
 
     - name: Compile the firmware
       id: compile
+      env:
+        CARGO: cargo +nightly
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
