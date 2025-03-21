@@ -90,6 +90,9 @@ jobs:
         rustup default nightly
         rustup update nightly
         rustup component add rust-src
+        echo "CARGO_HOME=$HOME/.cargo" >> $GITHUB_ENV
+        echo "RUSTUP_HOME=$HOME/.rustup" >> $GITHUB_ENV
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
     - name: Clone source code
       run: |
@@ -138,7 +141,6 @@ jobs:
       run: |
         cargo --version
         cd openwrt
-        ~/.cargo/bin/cargo +nightly build --release
         echo -e "$(nproc) thread compile"
         make -j4 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
