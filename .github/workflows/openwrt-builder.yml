@@ -83,24 +83,12 @@ jobs:
         sudo -E apt-get clean
         sudo timedatectl set-timezone "Asia/Shanghai"
 
-    - name: Install Rust Nightly
-      run: |
-        cargo --version
-        rustup install nightly
-        rustup default nightly
-        rustup component add rust-src --toolchain nightly
-        rustup component add rustc-dev --toolchain nightly
-        cargo --version
-        echo "CARGO_HOME=$HOME/.cargo" >> $GITHUB_ENV
-        echo "RUSTUP_HOME=$HOME/.rustup" >> $GITHUB_ENV
-        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-
     - name: Clone source code
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
-        git submodule update --init --recursive  
+        git submodule update --init --recursive
 
     - name: REPLACE TO 256M
       run: |
@@ -129,6 +117,12 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
+    - name: Patch File
+      run: |
+        chmod +x patch-file.sh
+        cd openwrt
+        $GITHUB_WORKSPACE/patch-file.sh
+
     - name: Download package
       id: package
       run: |
@@ -141,12 +135,6 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        which cargo
-        cargo --version
-        rustc --version
-        echo $PATH
-        echo $CARGO_HOME
-        echo $RUSTUP_HOME
         echo -e "$(nproc) thread compile"
         make -j4 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
