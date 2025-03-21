@@ -85,11 +85,12 @@ jobs:
 
     - name: Install Rust Nightly
       run: |
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly
-        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+        cargo --version
+        rustup install nightly
         rustup default nightly
-        rustup update nightly
-        rustup component add rust-src
+        rustup component add rust-src --toolchain nightly
+        rustup component add rustc-dev --toolchain nightly
+        cargo --version
         echo "CARGO_HOME=$HOME/.cargo" >> $GITHUB_ENV
         echo "RUSTUP_HOME=$HOME/.rustup" >> $GITHUB_ENV
         echo "$HOME/.cargo/bin" >> $GITHUB_PATH
@@ -139,8 +140,13 @@ jobs:
     - name: Compile the firmware
       id: compile
       run: |
-        cargo --version
         cd openwrt
+        which cargo
+        cargo --version
+        rustc --version
+        echo $PATH
+        echo $CARGO_HOME
+        echo $RUSTUP_HOME
         echo -e "$(nproc) thread compile"
         make -j4 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
