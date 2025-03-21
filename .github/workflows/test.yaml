@@ -69,14 +69,6 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/patch-file.sh
 
-    - name: Download package
-      id: package
-      run: |
-        cd openwrt
-        ./scripts/feeds install -a
-        make defconfig
-        make download -j8
-
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
       with:
