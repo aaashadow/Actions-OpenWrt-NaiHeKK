@@ -137,8 +137,8 @@ jobs:
       id: compile
       run: |
         cargo --version
-        ~/.cargo/bin/cargo +nightly build --release
         cd openwrt
+        ~/.cargo/bin/cargo +nightly build --release
         echo -e "$(nproc) thread compile"
         make -j4 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
