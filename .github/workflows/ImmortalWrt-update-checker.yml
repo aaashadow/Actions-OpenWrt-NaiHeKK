@@ -1,7 +1,7 @@
 #
 # https://github.com/P3TERX/Actions-OpenWrt
 #
-# File: .github/workflows/update-checker.yml
+# File: .github/workflows/ImmortalWrt-update-checker.yml
 # Description: Source code update checker
 #
 # Copyright (c) 2019-2024 P3TERX <https://p3terx.com>
@@ -10,10 +10,10 @@
 # See /LICENSE for more information.
 #
 
-name: Update Checker
+name: ImmortalWrt Update Checker
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: master
 
 on:
@@ -49,7 +49,7 @@ jobs:
       if: steps.cacheHash.outputs.cache-hit != 'true'
       uses: benc-uk/workflow-dispatch@v1
       with:
-        workflow: OpenWrt Builder
+        workflow: ImmortalWrt Builder
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
