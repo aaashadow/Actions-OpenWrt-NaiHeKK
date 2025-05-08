@@ -38,7 +38,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: .commitHashImmortalWrt
-        key: commitHash_${{ steps.getHash.outputs.commitHash }}
+        key: commitHashImmortalWrt_${{ steps.getHash.outputs.commitHash }}
 
     - name: Save New Commit Hash
       if: steps.cacheHash.outputs.cache-hit != 'true'
